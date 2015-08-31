@@ -9,10 +9,14 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import view.bobo.com.mywebviewcode.net.HttpThread;
 
@@ -39,6 +43,10 @@ public class MainActivity extends Activity {
      */
     private Context context;
 
+    /**
+     * 错误提示码
+     */
+    private TextView tv_code;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,17 @@ public class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return super.shouldOverrideUrlLoading(view, url);
+            }
+
+//            @Override
+//            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+//                super.onReceivedError(view, request, error);
+//                view.loadUrl("file:///android_asset/error.html");
+//            }
+
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                view.loadUrl("file:///android_asset/error.html");
             }
         });
         //下载文件的操作
@@ -91,7 +110,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //刷新界面
-                wv.reload();
+//                wv.reload();
+                wv.loadUrl("http://zhushou.360.cn/");
 
             }
         });
@@ -110,6 +130,7 @@ public class MainActivity extends Activity {
         tv_title = (TextView) findViewById(R.id.tv_title);
         ll_up = (LinearLayout) findViewById(R.id.ll_up);
         ll_resh = (LinearLayout) findViewById(R.id.ll_resh);
+        TextView tv_code = (TextView) findViewById(R.id.tv_code);
     }
 
     @Override
