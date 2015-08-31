@@ -79,9 +79,17 @@ public class MainActivity extends Activity {
 //                view.loadUrl("file:///android_asset/error.html");
 //            }
 
+            /**
+             * 利用本地写好的HTML进行错误的展示
+             */
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
-                view.loadUrl("file:///android_asset/error.html");
+                //本地html
+                //  view.loadUrl("file:///android_asset/error.html");
+                //code错误处理
+                tv_code.setVisibility(View.VISIBLE);
+                tv_code.setText("404 Error");
+                wv.setVisibility(View.INVISIBLE);
             }
         });
         //下载文件的操作
@@ -112,6 +120,8 @@ public class MainActivity extends Activity {
                 //刷新界面
 //                wv.reload();
                 wv.loadUrl("http://zhushou.360.cn/");
+                wv.setVisibility(View.VISIBLE);
+                tv_code.setVisibility(View.INVISIBLE);
 
             }
         });
@@ -130,7 +140,7 @@ public class MainActivity extends Activity {
         tv_title = (TextView) findViewById(R.id.tv_title);
         ll_up = (LinearLayout) findViewById(R.id.ll_up);
         ll_resh = (LinearLayout) findViewById(R.id.ll_resh);
-        TextView tv_code = (TextView) findViewById(R.id.tv_code);
+        tv_code = (TextView) findViewById(R.id.tv_code);
     }
 
     @Override
