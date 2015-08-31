@@ -1,14 +1,18 @@
 package view.bobo.com.mywebviewcode;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import view.bobo.com.mywebviewcode.net.HttpThread;
 
 public class MainActivity extends Activity {
     /**
@@ -27,11 +31,20 @@ public class MainActivity extends Activity {
      * 这是刷新
      */
     private LinearLayout ll_resh;
+
+    /**
+     * 上下文
+     */
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        context = MainActivity.this;
+
         initView();
         initData();
         wv.loadUrl("http://www.baidu.com");
@@ -50,6 +63,18 @@ public class MainActivity extends Activity {
                 return super.shouldOverrideUrlLoading(view, url);
             }
         });
+        //下载文件的操作
+        wv.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+                new HttpThread(url, context).start();
+            }
+        });
+        initWeb();
+    }
+
+    private void initWeb() {
+
     }
 
     private void initData() {
@@ -78,21 +103,6 @@ public class MainActivity extends Activity {
         ll_up = (LinearLayout) findViewById(R.id.ll_up);
         ll_resh = (LinearLayout) findViewById(R.id.ll_resh);
     }
-
-//    /**
-//     * 按返回键时， 不退出程序而是返回上一浏览页面：
-//     *
-//     * @param keyCode
-//     * @param event
-//     * @return
-//     */
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if ((keyCode == KeyEvent.KEYCODE_BACK) && details_wv_data.canGoBack()) {
-//            details_wv_data.goBack();
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
