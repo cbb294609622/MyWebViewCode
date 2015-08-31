@@ -2,6 +2,8 @@ package view.bobo.com.mywebviewcode;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -47,7 +49,7 @@ public class MainActivity extends Activity {
 
         initView();
         initData();
-        wv.loadUrl("http://www.baidu.com");
+        wv.loadUrl("http://zhushou.360.cn/");
         wv.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onReceivedTitle(WebView view, String title) {
@@ -67,10 +69,16 @@ public class MainActivity extends Activity {
         wv.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                new HttpThread(url, context).start();
+                //自己写的下载方法
+//                new HttpThread(url, context).start();
+
+                //调用系统的下载方法
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                startActivity(intent);
             }
         });
-        initWeb();
+//        initWeb();
     }
 
     private void initWeb() {
