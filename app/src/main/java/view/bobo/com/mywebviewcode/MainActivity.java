@@ -11,9 +11,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
+    /**
+     * 这是网页展示
+     */
     private WebView wv;
+    /**
+     * 这是title
+     */
     private TextView tv_title;
+    /**
+     * 这是返回
+     */
     private LinearLayout ll_up;
+    /**
+     * 这是刷新
+     */
     private LinearLayout ll_resh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +59,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 //刷新界面
                 wv.reload();
+
             }
         });
         ll_up.setOnClickListener(new View.OnClickListener() {
