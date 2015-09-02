@@ -12,7 +12,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by BoBo on 2015/8/31.
+ * 有问题 自己写的下载方式，以后处理
  */
 public class HttpThread extends  Thread{
     private String mUrl;

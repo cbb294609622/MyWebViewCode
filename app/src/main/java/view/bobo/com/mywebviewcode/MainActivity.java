@@ -9,16 +9,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import view.bobo.com.mywebviewcode.net.HttpThread;
+import view.bobo.com.mywebviewcode.cookies.HttpCookie;
 
 public class MainActivity extends Activity {
     /**
@@ -47,6 +43,7 @@ public class MainActivity extends Activity {
      * 错误提示码
      */
     private TextView tv_code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +54,7 @@ public class MainActivity extends Activity {
 
         initView();
         initData();
+        new HttpCookie().start();
         wv.loadUrl("http://zhushou.360.cn/");
         wv.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -85,11 +83,11 @@ public class MainActivity extends Activity {
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
                 //本地html
-                //  view.loadUrl("file:///android_asset/error.html");
+                view.loadUrl("file:///android_asset/error.html");
                 //code错误处理
                 tv_code.setVisibility(View.VISIBLE);
-                tv_code.setText("404 Error");
-                wv.setVisibility(View.INVISIBLE);
+//                tv_code.setText("404 Error");
+//                wv.setVisibility(View.INVISIBLE);
             }
         });
         //下载文件的操作
@@ -101,7 +99,7 @@ public class MainActivity extends Activity {
 
                 //调用系统的下载方法
                 Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
         });
@@ -145,7 +143,7 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK) && wv.canGoBack()){
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && wv.canGoBack()) {
             wv.goBack();
             return true;
         }
